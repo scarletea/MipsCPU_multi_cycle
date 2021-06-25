@@ -5,7 +5,7 @@ module ALU (
     input   [3:0]  ALUOp,
     input   [4:0] shamt,
     output reg [31:0] Res,
-    output reg ZF              //输入两个数是否相等,相等为1，不相等为0
+    output reg ZF              //输入两个数是否相�?,相等�?1，不相等�?0
 );
 
 always @( A or B or ALUOp or shamt ) 
@@ -30,3 +30,4 @@ begin
     endcase
     assign ZF = (A == B) ? 1 : 0;
 end
+endmodule
