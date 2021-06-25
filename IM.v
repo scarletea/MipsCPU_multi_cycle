@@ -1,12 +1,8 @@
 module IM(
     input [11:2] addr,
-    output [31:0] dout
+    output reg [31:0] ins
 );
-    reg [31:0] MEM[1023:0];
+    reg [31:0] IMEM[1023:0];
 
-    //
-    //
-    //
-    //
-    assign dout = MEM[addr];
+    assign ins = IMEM[addr];
 endmodule

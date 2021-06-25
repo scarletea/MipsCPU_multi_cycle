@@ -8,21 +8,21 @@ module RF(
     output [31:0] RD1,      //¶Á³öµÄÊı1
     output [31:0] RD2
 );
-reg [31:0] register [31:0];
+    reg [31:0] register [31:0];
 
-integer i;
-initial 
-begin
-    for (i = 0; i < 32; i = i + 1)
-    register[i] = 0;
-end
+    integer i;
+    initial 
+    begin
+        for (i = 0; i < 32; i = i + 1)
+        register[i] = 0;
+    end
 
-always @(posedge clk) 
-begin
-    if (RFWr)
-        register[rd] <= WD;
-end
+    always @(posedge clk) 
+        begin
+            if (RFWr)
+                register[rd] <= WD;
+        end
 
-assign RD1 = (rs==0)? 0:register[rs];
-assign RD2 = (rt==0)? 0:register[rt];
+    assign RD1 = (rs==0)? 0:register[rs];
+    assign RD2 = (rt==0)? 0:register[rt];
 endmodule

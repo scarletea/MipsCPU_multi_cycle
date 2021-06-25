@@ -22,5 +22,12 @@
 `define ALU_ANDI_OP         4'b1101
 `define ALU_XORI_OP         4'b1110
 
+//EXTSel
+`define EXT_UNSIGNED        2'b00
+`define EXT_SIGNED          2'b01
+`define EXT_POS_H            2'b10
 
-
+//NPCOp
+`define NPC_PLUS            2'b00
+`define NPC_BRANCH          2'b01
+`define NPC_JUMP            2'b10
