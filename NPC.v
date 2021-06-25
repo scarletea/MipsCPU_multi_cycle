@@ -1,9 +1,9 @@
 `include "DEFINE.v"
 module NPC(
-	input  [31:2] PC,       //å½“å‰
-	input  [1:0]  NPCOp,    //æ“ä½œæ•°
-	input  [25:0] IMM,      //ç«‹å³æ•°
-	output reg [31:2] NPC   //ä¸‹ä¸€address
+	input  [31:2] PC,       //µ±Ç°
+	input  [1:0]  NPCOp,    //²Ù×÷Êı
+	input  [25:0] IMM,      //Á¢¼´Êı
+	output reg [31:2] NPC   //ÏÂÒ»address
 );
 always @(*) 
    begin

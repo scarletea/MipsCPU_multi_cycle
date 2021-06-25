@@ -5,7 +5,7 @@ module ALU (
     input   [3:0]  ALUOp,
     input   [4:0] shamt,
     output reg [31:0] Res,
-    output reg ZF              //杈撳叆涓や釜鏁版槸鍚︾浉绛?,鐩哥瓑涓?1锛屼笉鐩哥瓑涓?0
+    output reg ZF              //输入两个数是否相等,相等为1，不相等为0
 );
 
 always @( A or B or ALUOp or shamt ) 

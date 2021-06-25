@@ -1,9 +1,9 @@
 module PC(
-    input clk,          //鏃堕挓淇″彿
-    input rst,          //澶嶄綅淇″彿
-    input [31:2]NPC,    //涓嬩竴鏉℃寚浠ゅ湴鍧�
-    input PCWr,         //浣胯兘淇″彿
-    output reg [31:2]PC //褰撳墠鎸囦护鍦板潃
+    input clk,          //时钟信号
+    input rst,          //复位信号
+    input [31:2]NPC,    //下一条指令地址
+    input PCWr,         //使能信号
+    output reg [31:2]PC //当前指令地址
 );
 reg [1:0] t;
 

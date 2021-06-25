@@ -2,8 +2,8 @@ module IR (
    input    clk,
    input    rst,
    input    IRWr, 
-   input  [31:0] ins_in,       //鎸囦护杈撳叆
-   output reg [31:0] ins_out      //鎸囦护杈撳嚭
+   input  [31:0] ins_in,       //指令输入
+   output reg [31:0] ins_out      //指令输出
 );
 always @(posedge clk or posedge rst) 
 begin

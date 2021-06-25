@@ -1,4 +1,4 @@
-`define EXE_ORI         6'b001101           //oriæŒ‡ä»¤ç 
+`define EXE_ORI         6'b001101           //oriÖ¸ÁîÂë
 `define EXE_NOP         6'b000000
 
 //AluOp

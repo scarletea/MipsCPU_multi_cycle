@@ -1,11 +1,11 @@
 module RF(
-    input  [4:0]  rs,      //璇绘搷浣滃湴鍧?1
+    input  [4:0]  rs,      //读操作地址
     input  [4:0]  rt,
-    input  [4:0]  rd,       //鍐欐搷浣滃湴鍧?1
-    input  [31:0] WD,       //鍐欏叆鐨勬暟鎹?
+    input  [4:0]  rd,       //写操作地址
+    input  [31:0] WD,       //写入的数
     input         clk,
     input         RFWr,
-    output [31:0] RD1,      //璇诲嚭鐨勬暟鎹?1
+    output [31:0] RD1,      //读出的数1
     output [31:0] RD2
 );
 reg [31:0] register [31:0];
