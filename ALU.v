@@ -1,10 +1,11 @@
+`include "DEFINE.v"
 module ALU (
     input   [31:0] A, 
     input   [31:0] B,
     input   [3:0]  ALUOp,
     input   [4:0] shamt,
     output reg [31:0] Res,
-    output  ZF              //输入两个数是否相等,相等为1，不相等为0
+    output reg ZF              //输入两个数是否相等,相等为1，不相等为0
 );
 
 always @( A or B or ALUOp or shamt ) 
@@ -12,7 +13,7 @@ begin
     case(ALUOp)
         `ALU_ADDU_OP:   Res = A + B;
         `ALU_SUBU_OP:   Res = A - B;
-        `ALU_ORI_OP:    Res = A | B；
+        `ALU_ORI_OP:    Res = A | B;
         `ALU_ADD_OP:    Res = A + B;
         `ALU_SUB_OP:    Res = A - B;
         `ALU_AND_OP:    Res = A & B;
