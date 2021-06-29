@@ -1,7 +1,7 @@
 module RF(
     input  [4:0]  rs,      //读操作地址
     input  [4:0]  rt,
-    input  [4:0]  rd,       //写操作地址
+    input  [4:0]  rd,       //写入的操作地址
     input  [31:0] WD,       //写入的数
     input         clk,
     input         RFWr,

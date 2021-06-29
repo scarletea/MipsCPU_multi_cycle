@@ -8,7 +8,7 @@ module NPC(
    always @(*) 
       begin
          case (NPCOp)
-            `NPC_PLUS: NPC = PC + 1;
+            `NPC_PLUS_4: NPC = PC + 1;
             `NPC_BRANCH: NPC = PC + {{14{IMM[15]}}, IMM[15:0]};
             `NPC_JUMP: NPC = {PC[31:28], IMM[25:0]};
             default: ;
