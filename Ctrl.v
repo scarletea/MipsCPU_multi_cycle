@@ -13,7 +13,7 @@ module Ctrl(
    output reg [1:0] EXTSel,     //扩展模式选择，0：直接扩展，1：零扩展，2：扩展后立即数置高位
    output reg [3:0] ALUOp,      //ALU控制信号，见ALU.v
    output reg [1:0] NPCOp,      //NPC控制信号,0：PC+4 1：分支地址 2：跳转地址
-   output reg [1:0] RegSel,     //reg写入片选，0：写入rd，1：写入rt，2：写入$31 reg，作为rt
+   output reg [1:0] RegSel,     //reg写入片选，0：写入rd，1：写入rt，2：写入$31 reg//ExtOp
    output reg [1:0] WDsel,      //回写片选，0为ALU结果，1为DM中读出的数据，2为PC,写入RF
    output reg BSel              //ALU片选，0为rt数据,1为imm扩展后数据
 );
@@ -38,11 +38,12 @@ module Ctrl(
 //   wire MemType; // Type pf Memory Instruction(Load/Store)
 
    assign RType   = (Op == `INST_RTYPE_OP);
-   assign IType   = (Op == `INST_ORI_OP || `INST_ADDI_OP || `INST_ADDIU_OP || `INST_ANDI_OP || `INST_XORI_OP);
+   assign IType   = (Op == `INST_ORI_OP || `INST_ADDIU_OP || `INST_ANDI_OP || `INST_XORI_OP);
    assign BrType  = (Op == `INST_BEQ_OP  );
    assign JType   = (Op == `INST_JAL_OP  );
 	assign LdType  = (Op == `INST_LW_OP   );
 	assign StType  = (Op == `INST_SW_OP   );
+   assign Addi    = (Op == `INST_ADDI_OP ); 
 
 
    //FSM
@@ -94,33 +95,33 @@ module Ctrl(
 
 
 //Ctrl Signal
-    always @( * ) 
+    always @(*)
     begin
 	   case (state)
-		   Fetch: 
+		   Fetch:
          begin
             PCWr   = 1'b1;
-            NPCOp  = `NPC_PLUS_4; 
+            NPCOp  = `NPC_PLUS_4;
             IRWr   = 1'b1;
             RFWr   = 1'b0;
-            DMWr   = 1'b0;            
-			end 
-         DCD: 
+            DMWr   = 1'b0;
+			end
+         DCD:
          begin
             PCWr   = 1'b0;
             IRWr   = 1'b0;
             RFWr   = 1'b0;
-            DMWr   = 1'b0;				
-            if (IType)
+            DMWr   = 1'b0;
+            if (IType||RType||JType)
                EXTSel = `EXT_UNSIGNED;
-            else if (LdType||StType)
+            else if (LdType||StType||Addi||BrType)
 					EXTSel  = `EXT_SIGNED;
 				else
                EXTSel = 0;
 			end	
          Exe: 	
          begin
-            PCWr   = 1'b0;           
+            PCWr   = 1'b0;
             IRWr   = 1'b0;
             RFWr   = 1'b0;
             DMWr   = 1'b0;
@@ -163,7 +164,7 @@ module Ctrl(
                    default: ;
                endcase
             end
-		end 
+		   end 
          MA: 
          begin
             PCWr   = 1'b0;
