@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module RF(
     input  [4:0]  rs,      //¶Á²Ù×÷µØÖ·
     input  [4:0]  rt,

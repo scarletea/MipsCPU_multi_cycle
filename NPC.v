@@ -1,4 +1,6 @@
 `include "DEFINE.v"
+`timescale 1ns / 1ps
+
 module NPC(
 	input  [31:2] PC,       //当前
 	input  [1:0]  NPCOp,    //操作数

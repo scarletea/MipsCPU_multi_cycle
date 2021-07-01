@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module IR (
    input    clk,
    input    rst,
@@ -8,7 +10,7 @@ module IR (
     always @(posedge clk or posedge rst) 
         begin
             if(rst)
-                ins_in <= 0;
+                ins_out <= 0;
             else if (IRWr)
                 ins_out <= ins_in;
         end

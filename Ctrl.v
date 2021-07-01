@@ -1,4 +1,5 @@
 `include "DEFINE.v"
+`timescale 1ns / 1ps
 
 module Ctrl(
    input  clk,
@@ -38,7 +39,7 @@ module Ctrl(
 //   wire MemType; // Type pf Memory Instruction(Load/Store)
 
    assign RType   = (Op == `INST_RTYPE_OP);
-   assign IType   = (Op == `INST_ORI_OP || `INST_ADDIU_OP || `INST_ANDI_OP || `INST_XORI_OP);
+   assign IType   = 1'b0;//(Op == `INST_ORI_OP );//|| `INST_ADDIU_OP || `INST_ANDI_OP || `INST_XORI_OP);
    assign BrType  = (Op == `INST_BEQ_OP  );
    assign JType   = (Op == `INST_JAL_OP  );
 	assign LdType  = (Op == `INST_LW_OP   );
