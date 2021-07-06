@@ -2,7 +2,8 @@
 
 module mips(
    input clk,
-   input rst
+   input rst,
+   output test
 );
 
 wire Zero;
@@ -15,7 +16,7 @@ wire [1:0] ExtSel;
 wire RFWr;
 wire BSel;
 wire [1:0] NPCOp;
-wire [3:0] ALUOp;
+wire [4:0] ALUOp;
 wire DMWr;
 wire [1:0] WDSel;
 wire [31:2] PC;
@@ -47,8 +48,8 @@ assign Func = ins[5:0];
 assign Op = ins[31:26];
 assign IMM26 = ins[25:0];
 assign rs = ins[25:21];
-assign rd = ins[20:16];
-assign rt = ins[15:11];
+assign rt = ins[20:16];
+assign rd = ins[15:11];
 assign IMM16 = ins[15:0];
 assign shamt = ins[10:6];
 assign mux_RF_WD_0 = ALUout_out;
@@ -58,7 +59,7 @@ Ctrl U_CTRL(
    .clk(clk),.rst(rst),.Zero(Zero),.Op(Op),.Func(Func),
    .RFWr(RFWr),.DMWr(DMWr),.PCWr(PCWr),.IRWr(IRWr),
    .EXTSel(ExtSel),.ALUOp(ALUOp),.NPCOp(NPCOp),
-   .RegSel(RegSel),.WDsel(WDSel),.BSel(Bsel)
+   .RegSel(RegSel),.WDsel(WDSel),.BSel(BSel)
 );
 PC U_PC(
    .clk(clk),.rst(rst),.PCWr(PCWr),.NPC(NPC),.PC(PC)

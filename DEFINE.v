@@ -1,20 +1,25 @@
 
 //AluOp
-`define ALU_ADDU_OP         4'b0000
-`define ALU_SUBU_OP         4'b0001
-`define ALU_ORI_OP          4'b0010
-`define ALU_ADD_OP          4'b0011
-`define ALU_SUB_OP          4'b0100
-`define ALU_AND_OP          4'b0101
-`define ALU_OR_OP           4'b0110
-`define ALU_XOR_OP          4'b0111
-`define ALU_NOR_OP          4'b1000
-`define ALU_SLT_OP          4'b1001
-`define ALU_SLTU_OP         4'b1010
-`define ALU_ADDI_OP         4'b1011
-`define ALU_ADDIU_OP        4'b1100
-`define ALU_ANDI_OP         4'b1101
-`define ALU_XORI_OP         4'b1110
+`define ALU_ADDU_OP         5'b00000
+`define ALU_SUBU_OP         5'b00001
+`define ALU_ORI_OP          5'b00010
+`define ALU_ADD_OP          5'b00011
+`define ALU_SUB_OP          5'b00100
+`define ALU_AND_OP          5'b00101
+`define ALU_OR_OP           5'b00110
+`define ALU_XOR_OP          5'b00111
+`define ALU_NOR_OP          5'b01000
+`define ALU_SLT_OP          5'b01001
+`define ALU_SLTU_OP         5'b01010
+`define ALU_ADDI_OP         5'b01011
+`define ALU_ADDIU_OP        5'b01100
+`define ALU_ANDI_OP         5'b01101
+`define ALU_XORI_OP         5'b01110
+`define ALU_SRL_OP          5'b01111
+`define ALU_SLL_OP          5'b10000
+`define ALU_SRLV_OP         5'b10001
+`define ALU_SLLV_OP         5'b10010
+
 
 //EXTSel
 `define EXT_UNSIGNED        2'b00
@@ -54,14 +59,10 @@
 `define INST_NOR_FUNC       6'b100111
 `define INST_SLT_FUNC       6'b101010
 `define INST_SLTU_FUNC      6'b101011
-/*
 `define INST_SLL_FUNC       6'b000000
 `define INST_SRL_FUNC       6'b000010
-`define INST_SRA_FUNC       6'b000011
 `define INST_SLLV_FUNC      6'b000100 
 `define INST_SRLV_FUNC      6'b000110
-`define INST_SRAV_FUNC      6'b000111
-*/
 
 // RF
 `define RegSel_RD   2'b00

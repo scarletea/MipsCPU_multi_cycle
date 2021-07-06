@@ -8,6 +8,8 @@ module PC(
     output reg [31:2]PC //当前指令地址
 );
     reg [1:0] t;
+    wire [31:0] PC_full;
+    assign PC_full = {PC,t};
 
     always @(posedge clk,posedge rst) 
         begin

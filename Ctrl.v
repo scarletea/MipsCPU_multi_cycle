@@ -8,13 +8,13 @@ module Ctrl(
    input  [5:0] Op,
    input  [5:0] Func,
    output reg RFWr,             //RF写使能信号，enable：1，disable：0
-   output reg DMWr,             //DM读写控制信号，1为写，0为读
+   output reg DMWr,             //DM写使能信号，enable：1，disable：0
    output reg PCWr,             //PC写使能信号，enable：1，disable：0
    output reg IRWr,             //IR写使能信号，enable：1，disable：0
-   output reg [1:0] EXTSel,     //扩展模式选择，0：直接扩展，1：零扩展，2：扩展后立即数置高位
-   output reg [3:0] ALUOp,      //ALU控制信号，见ALU.v
+   output reg [1:0] EXTSel,     //扩展模式选择，0：直接扩展，1：零扩展，2：扩展后立即数置高位//ExtOp
+   output reg [4:0] ALUOp,      //ALU控制信号，见ALU.v
    output reg [1:0] NPCOp,      //NPC控制信号,0：PC+4 1：分支地址 2：跳转地址
-   output reg [1:0] RegSel,     //reg写入片选，0：写入rd，1：写入rt，2：写入$31 reg//ExtOp
+   output reg [1:0] RegSel,     //reg写入片选，0：写入rd，1：写入rt，2：写入$31 reg
    output reg [1:0] WDsel,      //回写片选，0为ALU结果，1为DM中读出的数据，2为PC,写入RF
    output reg BSel              //ALU片选，0为rt数据,1为imm扩展后数据
 );
@@ -31,21 +31,20 @@ module Ctrl(
    parameter Jmp    = 4'b1001;
 
    wire RType;   // Type of R-Type Instruction
-   wire IType;   // Type of Imm    Instruction  
+   wire IType;   // Type of Imm    Instruction  except addi
    wire BrType;  // Type of Branch Instruction
    wire JType;   // Type of Jump   Instruction
    wire LdType;  // Type of Load   Instruction
    wire StType;  // Type of Store  Instruction
-//   wire MemType; // Type pf Memory Instruction(Load/Store)
+   wire Addi;    // Type of addi  Instruction (IType)
 
    assign RType   = (Op == `INST_RTYPE_OP);
-   assign IType   = 1'b0;//(Op == `INST_ORI_OP );//|| `INST_ADDIU_OP || `INST_ANDI_OP || `INST_XORI_OP);
+   assign IType   = ((Op == `INST_ORI_OP) || (Op == `INST_ADDIU_OP) || (Op == `INST_ANDI_OP) || (Op == `INST_XORI_OP));
    assign BrType  = (Op == `INST_BEQ_OP  );
    assign JType   = (Op == `INST_JAL_OP  );
-	assign LdType  = (Op == `INST_LW_OP   );
-	assign StType  = (Op == `INST_SW_OP   );
+   assign LdType  = (Op == `INST_LW_OP   );
+   assign StType  = (Op == `INST_SW_OP   );
    assign Addi    = (Op == `INST_ADDI_OP ); 
-
 
    //FSM
    reg [3:0] nextstate;
@@ -64,7 +63,7 @@ module Ctrl(
             nextstate = DCD;
          DCD: 
          begin
-            if ( RType || IType ) 
+            if ( RType || IType || Addi) 
 				   nextstate = Exe;
             else if ( LdType || StType ) 
                nextstate = MA;
@@ -126,7 +125,7 @@ module Ctrl(
             IRWr   = 1'b0;
             RFWr   = 1'b0;
             DMWr   = 1'b0;
-            if (IType)
+            if (IType||Addi)
                BSel   = `B_EXT;
             else
                BSel   = `B_RT;			
@@ -154,14 +153,10 @@ module Ctrl(
                   `INST_NOR_FUNC:  ALUOp = `ALU_NOR_OP;
                   `INST_SLT_FUNC:  ALUOp = `ALU_SLT_OP;
                   `INST_SLTU_FUNC: ALUOp = `ALU_SLTU_OP;
-                  /*
                   `INST_SLL_FUNC:  ALUOp = `ALU_SLL_OP;
                   `INST_SRL_FUNC:  ALUOp = `ALU_SRL_OP;
-                  `INST_SRA_FUNC:  ALUOp = `ALU_SRA_OP;
                   `INST_SLLV_FUNC: ALUOp = `ALU_SLLV_OP;
                   `INST_SRLV_FUNC: ALUOp = `ALU_SRLV_OP;
-                  `INST_SRAV_FUNC: ALUOp = `ALU_SRAV_OP;
-                  */
                    default: ;
                endcase
             end
@@ -221,7 +216,7 @@ module Ctrl(
             IRWr   = 1'b0;
             RFWr   = 1'b1;
             DMWr   = 1'b0;
-            if (IType)
+            if (IType || Addi)
                RegSel = `RegSel_RT;
             else
                RegSel = `RegSel_RD;
