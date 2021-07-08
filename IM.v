@@ -8,7 +8,7 @@ module IM(
 
     initial
     begin
-        $readmemh("C://Users//hp//Desktop//zucheng//MipsCPU_multi_cycle//full.txt",IMEM);
+        $readmemh("C://Users//hp//Desktop//MipsCPU_multi_cycle//code.txt",IMEM);
     end
     always @(*)
     begin

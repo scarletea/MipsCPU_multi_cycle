@@ -31,12 +31,12 @@ module Ctrl(
    parameter Jmp    = 4'b1001;
 
    wire RType;   // Type of R-Type Instruction
-   wire IType;   // Type of Imm    Instruction  except addi
+   wire IType;   // Type of Imm    Instruction
    wire BrType;  // Type of Branch Instruction
    wire JType;   // Type of Jump   Instruction
    wire LdType;  // Type of Load   Instruction
    wire StType;  // Type of Store  Instruction
-   wire Addi;    // Type of addi  Instruction (IType)
+   wire IType_SIGNED_EXT;    // Type of IType  Instruction (signed extend)
 
    assign RType   = (Op == `INST_RTYPE_OP);
    assign IType   = ((Op == `INST_ORI_OP) || (Op == `INST_ADDIU_OP) || (Op == `INST_ANDI_OP) || (Op == `INST_XORI_OP));
@@ -44,7 +44,7 @@ module Ctrl(
    assign JType   = (Op == `INST_JAL_OP  );
    assign LdType  = (Op == `INST_LW_OP   );
    assign StType  = (Op == `INST_SW_OP   );
-   assign Addi    = (Op == `INST_ADDI_OP ); 
+   assign IType_SIGNED_EXT = ((Op == `INST_ADDI_OP ) || (Op == `INST_SLTI_OP) || (Op == `INST_SLTIU_OP));
 
    //FSM
    reg [3:0] nextstate;
@@ -63,7 +63,7 @@ module Ctrl(
             nextstate = DCD;
          DCD: 
          begin
-            if ( RType || IType || Addi) 
+            if ( RType || IType || IType_SIGNED_EXT) 
 				   nextstate = Exe;
             else if ( LdType || StType ) 
                nextstate = MA;
@@ -114,7 +114,7 @@ module Ctrl(
             DMWr   = 1'b0;
             if (IType||RType||JType)
                EXTSel = `EXT_UNSIGNED;
-            else if (LdType||StType||Addi||BrType)
+            else if (LdType||StType||IType_SIGNED_EXT||BrType)
 					EXTSel  = `EXT_SIGNED;
 				else
                EXTSel = 0;
@@ -125,7 +125,7 @@ module Ctrl(
             IRWr   = 1'b0;
             RFWr   = 1'b0;
             DMWr   = 1'b0;
-            if (IType||Addi)
+            if (IType||IType_SIGNED_EXT)
                BSel   = `B_EXT;
             else
                BSel   = `B_RT;			
@@ -140,6 +140,10 @@ module Ctrl(
                ALUOp  = `ALU_ANDI_OP;
             else if (Op == `INST_XORI_OP)
                ALUOp  = `ALU_XORI_OP;
+            else if( Op == `INST_SLTI_OP)
+               ALUOp = `ALU_SLTI_OP;
+            else if( Op == `INST_SLTIU_OP)
+               ALUOp = `ALU_SLTIU_OP;
             else if (Op == `INST_RTYPE_OP) 
             begin
                case (Func)
@@ -216,7 +220,7 @@ module Ctrl(
             IRWr   = 1'b0;
             RFWr   = 1'b1;
             DMWr   = 1'b0;
-            if (IType || Addi)
+            if (IType || IType_SIGNED_EXT)
                RegSel = `RegSel_RT;
             else
                RegSel = `RegSel_RD;

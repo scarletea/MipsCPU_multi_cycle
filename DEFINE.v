@@ -19,7 +19,8 @@
 `define ALU_SLL_OP          5'b10000
 `define ALU_SRLV_OP         5'b10001
 `define ALU_SLLV_OP         5'b10010
-
+`define ALU_SLTI_OP         5'b10011
+`define ALU_SLTIU_OP        5'b10100
 
 //EXTSel
 `define EXT_UNSIGNED        2'b00
@@ -47,6 +48,8 @@
 `define INST_ADDIU_OP       6'b001001
 `define INST_ANDI_OP        6'b001100
 `define INST_XORI_OP        6'b001110
+`define INST_SLTI_OP        6'b001010
+`define INST_SLTIU_OP       6'b001011
 
 //Ins_Func
 `define INST_ADDU_FUNC      6'b100001
